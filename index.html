@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Werewolf Moderator Assistant (Thai)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Prompt:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Header -->
+        <header>
+            <h1><i class="fa-solid fa-moon"></i> Werewolf <span class="blood-drip">MOD DFD กกมง.</span></h1>
+            <p style="text-align: center; color: var(--text-secondary);">ค่ำคืนที่มืดมิดใน กกมง.และเต็มไปด้วยความตาย...
+            </p>
+        </header>
+
+        <!-- SETUP SECTION -->
+        <section id="setup-section" class="card">
+            <h2>ลงทะเบียนผู้เล่น</h2>
+
+            <div class="input-group">
+                <input type="text" id="player-input" placeholder="ใส่ชื่อผู้เล่น...">
+                <button onclick="addPlayer()"><i class="fa-solid fa-plus"></i> เพิ่ม</button>
+            </div>
+
+            <div id="player-roster" style="margin-bottom: 20px;">
+                <!-- Player inputs with Role Dropdowns will go here -->
+                <p style="color: #666; font-style: italic; text-align: center;" id="empty-roster-msg">ยังไม่มีผู้เล่น
+                </p>
+            </div>
+
+            <button id="start-btn" onclick="startGame()" style="width: 100%; margin-top: 20px;"
+                class="pulse">เริ่มเกม</button>
+        </section>
+
+        <!-- GAME DASHBOARD (Hidden initially) -->
+        <main id="game-dashboard" class="hidden">
+
+            <!-- Phase Indicator & Timer -->
+            <div class="card phase-panel">
+                <div class="phase-indicator" id="phase-display">ช่วงเริ่มต้น</div>
+                <div class="timer-display" id="timer">05:00</div>
+                <div class="phase-controls">
+                    <button class="secondary" onclick="toggleTimer()"><i class="fa-solid fa-stopwatch"
+                            id="timer-icon"></i></button>
+                    <button class="secondary" onclick="resetTimer()"><i class="fa-solid fa-rotate-right"></i></button>
+                    <button onclick="nextPhase()">เปลี่ยนเฟส <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div id="narrator-guide"
+                    style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #444; font-size: 0.9rem; color: #bbb;">
+                    <!-- Narrator prompts go here -->
+                </div>
+
+                <!-- Reset Game Button -->
+                <button onclick="resetGame()" class="secondary"
+                    style="width:100%; margin-top:10px; border-color: #444; color: #666; font-size: 0.8rem;">รีเซ็ตเกม
+                    (Reset Game)</button>
+            </div>
+
+            <!-- Player List -->
+            <div class="player-list" id="active-players">
+                <!-- Players injected via JS -->
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- Role Reveal Modal (Optional use now) -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2>บทบาทของคุณคือ...</h2>
+            <div class="role-reveal-text" id="modal-role-name">WEREWOLF</div>
+            <p class="role-desc" id="modal-role-desc">คำอธิบาย</p>
+            <button onclick="closeModal()">รับทราบ</button>
+        </div>
+    </div>
+
+    <!-- Winner Modal -->
+    <div id="winner-modal" class="modal">
+        <div class="modal-content" style="border-color: var(--gold-color);">
+            <h2 style="color: var(--gold-color); font-size: 2.5rem;">จบเกม! (Game Over)</h2>
+            <div class="role-reveal-text" id="winner-name" style="color: white; margin: 30px 0;">
+                ผู้ชนะ: ฝ่ายชาวบ้าน
+            </div>
+            <button onclick="resetGame()" class="pulse"
+                style="background-color: var(--gold-color); color: black;">เล่นใหม่อีกครั้ง</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
