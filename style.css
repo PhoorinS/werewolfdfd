@@ -323,3 +323,101 @@ button.kill-btn:hover {
 .pulse {
     animation: pulse 2s infinite;
 }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .container {
+        gap: 15px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    /* Adjust Inputs for smaller screens */
+    .input-group {
+        flex-direction: column;
+    }
+
+    .input-group button {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    /* Player Roster Item */
+    .player-roster-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .player-roster-item input,
+    .player-roster-item select {
+        width: 100%;
+        flex: none;
+    }
+
+    .player-roster-item button {
+        width: 100%;
+    }
+
+    /* Player Card in Game Dashboard */
+    .player-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .player-card .actions {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end; /* Or center? */
+        border-top: 1px solid #444;
+        padding-top: 10px;
+        margin-top: 5px;
+    }
+    
+    .player-card .actions button {
+        width: 100%;
+        padding: 12px; /* Bigger touch target */
+    }
+
+    /* Phase Panel Controls */
+    .phase-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .phase-controls button {
+        flex: 1 1 40%; /* Grow loop wrap */
+        font-size: 0.9rem;
+    }
+    
+    .timer-display {
+        font-size: 2.5rem; 
+    }
+
+    /* Modal Adjustments */
+    .modal-content {
+        padding: 20px;
+        width: 95%;
+        margin: 0 auto;
+    }
+    
+    .role-reveal-text {
+        font-size: 1.5rem;
+    }
+}

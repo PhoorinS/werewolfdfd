@@ -18,6 +18,26 @@ const ROLES_CONFIG = [
     { id: 'beggar', name: 'ยาจก (Beggar)', icon: 'fa-hand-holding-dollar', desc: 'ยาจกชนะเมื่อถูกโหวตไห้ออกจากหมู่บ้าน', nightOrder: 0, team: 'NEUTRAL' },
     { id: 'cub', name: 'ลูกหมา (Wolf Cub)', icon: 'fa-paw', desc: 'ถ้าลูกหมาตาย คืนถัดไปหมาป่าจะฆ่าได้ 2 คน', nightOrder: 0, team: 'WOLF' },
     { id: 'bodyguard', name: 'บอดี้การ์ด (Bodyguard)', icon: 'fa-shield-halved', desc: 'เลือกปกป้องคนได้ 1 คน ห้ามซ้ำคนเดิม', nightOrder: 25, team: 'VILLAGER' },
+    // Deluxe Edition Roles
+    { id: 'huntress', name: 'พรานหญิง (Huntress)', icon: 'fa-person-rifle', desc: 'ห้ามถูกหมาป่าฆ่าในตอนกลางคืน', nightOrder: 0, team: 'VILLAGER' },
+    { id: 'tough_guy', name: 'คนถึก (Tough Guy)', icon: 'fa-dumbbell', desc: 'ทนการโจมตีได้ 1 คืน แล้วจะตายในคืนถัดไป', nightOrder: 0, team: 'VILLAGER' },
+    { id: 'prince', name: 'เจ้าชาย (Prince)', icon: 'fa-crown', desc: 'ไม่สามารถถูกโหวตออกจากหมู่บ้านได้', nightOrder: 0, team: 'VILLAGER' },
+    { id: 'cupid', name: 'กามเทพ (Cupid)', icon: 'fa-heart', desc: 'เลือกคู่รัก 2 คนให้ผูกชีวิตกัน', nightOrder: 3, team: 'VILLAGER' },
+    { id: 'serial_killer', name: 'ฆาตกร (Serial Killer)', icon: 'fa-skull-crossbones', desc: 'ฆ่าคนได้คืนละ 1 คน ชนะเมื่อเหลือคนเดียว', nightOrder: 45, team: 'NEUTRAL' },
+    { id: 'fool', name: 'คนบ้า (Fool)', icon: 'fa-face-dizzy', desc: 'ถ้าถูกโหวตออก จะเปิดเผยบทบาทแต่ไม่ตาย', nightOrder: 0, team: 'VILLAGER' },
+    // More Deluxe
+    { id: 'cursed', name: 'คนที่ถูกสาป (Cursed)', icon: 'fa-book-skull', desc: 'ถ้าหมาป่ากัด จะไม่ตายแต่เปลี่ยนเป็นฝ่ายหมาป่า', nightOrder: 0, team: 'VILLAGER' },
+    { id: 'sorcerer', name: 'พ่อมด (Sorcerer)', icon: 'fa-hat-witch', desc: 'ฝ่ายหมาป่า แต่ผู้หยั่งรู้จะเห็นเป็นชาวบ้าน ตื่นมาหาผู้หยั่งรู้', nightOrder: 15, team: 'WOLF' },
+    { id: 'apprentice_seer', name: 'ศิษย์ผู้หยั่งรู้ (Apprentice Seer)', icon: 'fa-graduation-cap', desc: 'ถ้าผู้หยั่งรู้ตาย จะเลื่อนขั้นเป็นผู้หยั่งรู้แทน', nightOrder: 0, team: 'VILLAGER' },
+    { id: 'lycan', name: 'ไลแคน (Lycan)', icon: 'fa-dog', desc: 'ฝ่ายชาวบ้าน แต่ผู้หยั่งรู้จะเห็นเป็นหมาป่า', nightOrder: 0, team: 'VILLAGER' },
+    { id: 'mason', name: 'ช่างก่อสร้าง (Mason)', icon: 'fa-trowel-bricks', desc: 'ตื่นคืนแรกเพื่อรู้จักกับช่างก่อสร้างคนอื่น', nightOrder: 2, team: 'VILLAGER' },
+    { id: 'ghost', name: 'ผี (Ghost)', icon: 'fa-ghost', desc: 'ตายในคืนแรกเสมอ แต่เขียนข้อความจากนรกได้', nightOrder: 0, team: 'VILLAGER' },
+    // Extreme Roles
+    { id: 'wolf_man', name: 'ลูกครึ่งหมาป่า (Wolf Man)', icon: 'fa-people-arrows', desc: 'ฝ่ายหมาป่า แต่ผู้หยั่งรู้เห็นเป็นชาวบ้าน', nightOrder: 10, team: 'WOLF' },
+    { id: 'vampire_elder', name: 'แม่เฒ่าแวมไพร์ (Vampire Elder)', icon: 'fa-user-nurse', desc: 'หัวหน้าแวมไพร์ หมาป่าฆ่าไม่ได้', nightOrder: 60, team: 'VAMPIRE' },
+    { id: 'old_hag', name: 'แม่เฒ่าสาปแช่ง (Old Hag)', icon: 'fa-khanda', desc: 'เลือกสาปให้คนออกจากหมู่บ้าน 1 คืน (ห้ามพูด/โหวต)', nightOrder: 5, team: 'VILLAGER' },
+    { id: 'big_bad_wolf', name: 'หมาป่าจอมโหด (Big Bad Wolf)', icon: 'fa-shrimp', desc: 'ฆ่าคนได้ 2 คนต่อคืน (หรือมีความสามารถพิเศษ)', nightOrder: 11, team: 'WOLF' },
+    { id: 'dire_wolf', name: 'หมาป่าทมิฬ (Dire Wolf)', icon: 'fa-link', desc: 'เลือกผูกจิตกับใครก็ได้ ถ้าคนนั้นตาย เราตายด้วย', nightOrder: 12, team: 'WOLF' },
 ];
 
 // DOM Elements
@@ -165,12 +185,41 @@ function killPlayer(id) {
     const p = players.find(pl => pl.id === id);
     if (!p) return;
 
+    // Special Warnings before Action
+    if (p.roleObj.id === 'tough_guy' && gamePhase === 'NIGHT') {
+        alert("⚠️ นี่คือคนถึก! เขาจะไม่ตายทันที แต่จะตายในวันถัดไป (Moderator Note/Jode)");
+    }
+    if (p.roleObj.id === 'huntress' && gamePhase === 'NIGHT') {
+        alert("⚠️ นี่คือพรานหญิง! หมาป่าฆ่าไม่ได้ (ยกเว้นโดนแม่มดยาพิษหรืออื่นๆ)");
+    }
+    if ((p.roleObj.id === 'prince' || p.roleObj.id === 'fool') && gamePhase === 'DAY') {
+        alert("⚠️ ระวัง! บทบาทนี้มีผลพิเศษเมื่อถูกโหวต (ไม่ตาย หรือ แค่เปิดเผยตัว)");
+    }
+    // Deluxe Warnings
+    if (p.roleObj.id === 'cursed' && gamePhase === 'NIGHT') {
+        alert("⚠️ นี่คือ 'คนที่ถูกสาป'! ถ้าถูกหมาป่าโจมตี ห้ามฆ่า! แต่ให้เปลี่ยนเป็นฝ่ายหมาป่าแทน");
+        return; // Optional: Stop execution here? Or let Moderator decide if it was witch's poison. Let's just alert.
+    }
+    if (p.roleObj.id === 'seer') {
+        // Check for Apprentice Seer
+        const apprentice = players.find(ap => ap.isAlive && ap.roleObj.id === 'apprentice_seer');
+        if (apprentice) {
+            alert(`ℹ️ ผู้หยั่งรู้ตายแล้ว! อย่าลืมแจ้งศิษย์ผู้หยั่งรู้ (${apprentice.name}) ให้เลื่อนขั้น!`);
+        }
+    }
+    // Extreme Warnings
+    if ((p.roleObj.id === 'dire_wolf' && p.isAlive)) {
+        alert("⚠️ หมาป่าทมิฬ (Dire Wolf) ตาย! อย่าลืมตรวจสอบว่าคู่หูของเขาต้องตายตามไปด้วยหรือไม่!");
+    }
+    if (p.roleObj.id === 'vampire_elder' && gamePhase === 'NIGHT') {
+        alert("⚠️ แม่เฒ่าแวมไพร์! หมาป่าฆ่าไม่ได้ (Immune to Wolf)");
+    }
+
     if (confirm(`ยืนยันการสังหาร/โหวตออก: ${p.name} ?`)) {
         p.isAlive = false;
         renderGameList();
 
-        // 1. BEGGAR WIN CHECK (Only triggers if died during DAY/Voted out)
-        // Simplification: We assume "Kill/Vote" during DAY is voting out.
+        // 1. BEGGAR WIN CHECK
         if (p.roleObj.id === 'beggar' && gamePhase === 'DAY') {
             announceWinner('ฝ่ายยาจก (Beggar Team)');
             return;
@@ -179,12 +228,15 @@ function killPlayer(id) {
         // 2. Standard Win Check
         checkWinCondition();
 
-        // 3. Alerts
+        // 3. Alerts Post-Death
         if (p.roleObj.id === 'hunter') {
             alert("⚠️ นายพรานตาย! ถามเขาว่าจะยิงใครไปด้วยไหม?");
         }
         if (p.roleObj.id === 'cub') {
             alert("⚠️ ลูกหมาตาย! คืนพรุ่งนี้หมาป่าจะฆ่าได้ 2 ศพ!");
+        }
+        if (p.roleObj.id === 'fool' && gamePhase === 'DAY') {
+            alert("ℹ️ ถ้าเป็นคนบ้าโดนโหวต: ให้ชุบชีวิตขึ้นมาแล้วเปิดการ์ดแทน!");
         }
     }
 }
