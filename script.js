@@ -92,6 +92,9 @@ function addPlayer() {
 }
 
 function renderPlayerRoster() {
+    const countSpan = document.getElementById('player-count');
+    if (countSpan) countSpan.innerText = `(${players.length})`;
+
     if (players.length === 0) {
         playerRoster.innerHTML = '<p style="color: #666; font-style: italic; text-align: center;">ยังไม่มีผู้เล่น</p>';
         return;
@@ -164,6 +167,10 @@ function resetGame() {
     gamePhase = 'SETUP';
     gameDashboard.classList.add('hidden');
     setupSection.classList.remove('hidden');
+
+    // Reset roles to Villager default
+    players.forEach(p => p.roleId = 'villager');
+    renderPlayerRoster();
 
     // Reset timer
     resetTimer(0);
@@ -349,7 +356,16 @@ function closeModal() {
 function updatePhaseDisplay() {
     const thaiPhase = gamePhase === 'NIGHT' ? 'กลางคืน (Night)' : 'กลางวัน (Day)';
     phaseDisplay.innerText = thaiPhase;
-    document.body.style.borderColor = gamePhase === 'NIGHT' ? '#0a0a20' : '#d35400';
+
+    // Theme Switch
+    if (gamePhase === 'DAY') {
+        document.body.classList.add('day-mode');
+        document.body.style.borderColor = '#d35400'; // Fallback / Specific border
+    } else {
+        document.body.classList.remove('day-mode');
+        document.body.style.borderColor = '#0a0a20';
+    }
+
     updateNarratorGuide();
 }
 
