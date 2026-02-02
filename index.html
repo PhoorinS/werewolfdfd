@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Werewolf Moderator Assistant (Thai)</title>
+    <title>ผู้ช่วยผู้ดำเนินเกมแวร์วูล์ฟ</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,15 +22,16 @@
 
         <!-- Header -->
         <header>
-            <h1><i class="fa-solid fa-moon"></i> Werewolf <span class="blood-drip">MOD DFD กกมง.</span></h1>
-            <p style="text-align: center; color: var(--text-secondary);">ค่ำคืนที่มืดมิดใน กกมง.และเต็มไปด้วยความตาย...
-            </p>
+            <h1><i class="fa-solid fa-moon" style="margin-right: 12px;"></i>แวร์วูล์ฟ <span
+                    style="font-weight: 400; opacity: 0.8;">ผู้ดำเนินเกม</span></h1>
+            <p style="text-align: center; color: var(--text-secondary); max-width: 500px; margin: 0 auto;">🌙
+                ค่ำคืนที่มืดมิดใน กกมง. และเต็มไปด้วยความลึกลับ...</p>
         </header>
 
         <!-- SETUP SECTION -->
         <section id="setup-section" class="card">
-            <h2>ลงทะเบียนผู้เล่น <span id="player-count"
-                    style="font-size: 0.8em; color: var(--accent-color);">(0)</span></h2>
+            <h2><i class="fa-solid fa-users" style="margin-right: 8px; opacity: 0.7;"></i>ลงทะเบียนผู้เล่น <span
+                    id="player-count" style="font-size: 0.85em; opacity: 0.8; margin-left: 8px;"></span></h2>
 
             <div class="input-group">
                 <input type="text" id="player-input" placeholder="ใส่ชื่อผู้เล่น...">
@@ -43,8 +44,125 @@
                 </p>
             </div>
 
-            <button id="start-btn" onclick="startGame()" style="width: 100%; margin-top: 20px;"
-                class="pulse">เริ่มเกม</button>
+            <div id="role-randomizer"
+                style="margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px;">
+                <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-dice"
+                        style="margin-right: 8px; opacity: 0.7;"></i>สุ่มบทบาท</h3>
+
+                <!-- Mode Toggle -->
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button id="mode-random-btn" class="secondary" onclick="setRoleMode('random')"
+                        style="flex: 1; background: rgba(78, 205, 196, 0.2); border-color: #4ecdc4; color: #4ecdc4;">
+                        <i class="fa-solid fa-shuffle"></i> สุ่มอัตโนมัติ
+                    </button>
+                    <button id="mode-manual-btn" class="secondary" onclick="setRoleMode('manual')" style="flex: 1;">
+                        <i class="fa-solid fa-hand-pointer"></i> เลือกบทบาทเอง
+                    </button>
+                </div>
+
+                <!-- Random Mode UI -->
+                <div id="random-mode-ui">
+                    <div class="difficulty-buttons"
+                        style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap;">
+                        <button class="secondary" onclick="toggleCustomSelector()"
+                            style="flex: 100%; border-color: #9b59b6; color: #9b59b6; margin-bottom: 5px;"><i
+                                class="fa-solid fa-gear"></i> ตั้งค่าบทบาท</button>
+
+                        <button class="secondary" onclick="generateRoles('EASY')"
+                            style="flex:1; border-color: #2ecc71; color: #2ecc71;">ง่าย</button>
+                        <button class="secondary" onclick="generateRoles('MEDIUM')"
+                            style="flex:1; border-color: #f1c40f; color: #f1c40f;">ปานกลาง</button>
+                        <button class="secondary" onclick="generateRoles('HARD')"
+                            style="flex:1; border-color: #e74c3c; color: #e74c3c;">ยาก</button>
+                    </div>
+
+                    <div id="custom-role-selector"
+                        style="display: none; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #555;">
+                        <h4 style="margin: 0 0 10px 0; color: #aaa;">ดึงบทบาทเฉพาะที่ติ๊กถูก:</h4>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <button class="secondary" onclick="toggleAllRoles(true)"
+                                style="font-size: 0.8rem; padding: 5px 10px;">เลือกทั้งหมด</button>
+                            <button class="secondary" onclick="toggleAllRoles(false)"
+                                style="font-size: 0.8rem; padding: 5px 10px;">ไม่เลือกเลย</button>
+                        </div>
+                        <div id="custom-role-list"
+                            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; max-height: 200px; overflow-y: auto;">
+                            <!-- Checkboxes via JS -->
+                        </div>
+                        <p style="text-align:center; font-size:0.8rem; color:#888; margin-top:10px;">
+                            กดปุ่ม ง่าย/ปานกลาง/ยาก ด้านบนเพื่อสุ่มจากกองนี้
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Manual Mode UI -->
+                <div id="manual-mode-ui" style="display: none;">
+                    <div
+                        style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #555;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h4 style="margin: 0; color: #aaa;">เลือกบทบาทและจำนวน</h4>
+                            <div id="role-count-display" style="color: #4ecdc4; font-weight: 600;">
+                                รวม: <span id="total-roles-selected">0</span> / <span id="total-players-needed">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Villager Team -->
+                        <div class="role-team-section" style="margin-bottom: 20px;">
+                            <h5
+                                style="color: #3498db; margin-bottom: 10px; border-bottom: 2px solid #3498db; padding-bottom: 5px;">
+                                <i class="fa-solid fa-users"></i> ฝ่ายชาวบ้าน
+                            </h5>
+                            <div id="manual-villager-roles" class="manual-role-grid"></div>
+                        </div>
+
+                        <!-- Wolf Team -->
+                        <div class="role-team-section" style="margin-bottom: 20px;">
+                            <h5
+                                style="color: #e74c3c; margin-bottom: 10px; border-bottom: 2px solid #e74c3c; padding-bottom: 5px;">
+                                <i class="fa-solid fa-wolf-pack-battalion"></i> ฝ่ายหมาป่า
+                            </h5>
+                            <div id="manual-wolf-roles" class="manual-role-grid"></div>
+                        </div>
+
+                        <!-- Solo Team -->
+                        <div class="role-team-section" style="margin-bottom: 20px;">
+                            <h5
+                                style="color: #f1c40f; margin-bottom: 10px; border-bottom: 2px solid #f1c40f; padding-bottom: 5px;">
+                                <i class="fa-solid fa-star"></i> ฝ่ายตัวเอง
+                            </h5>
+                            <div id="manual-solo-roles" class="manual-role-grid"></div>
+                        </div>
+
+                        <!-- Mixed Team -->
+                        <div class="role-team-section">
+                            <h5
+                                style="color: #9b59b6; margin-bottom: 10px; border-bottom: 2px solid #9b59b6; padding-bottom: 5px;">
+                                <i class="fa-solid fa-masks-theater"></i> ครึ่งคนครึ่งร้าย
+                            </h5>
+                            <div id="manual-mixed-roles" class="manual-role-grid"></div>
+                        </div>
+                    </div>
+
+                    <button class="secondary" onclick="generateManualRoles()"
+                        style="width: 100%; background: rgba(78, 205, 196, 0.2); border-color: #4ecdc4; color: #4ecdc4;">
+                        <i class="fa-solid fa-check"></i> สร้างชุดบทบาท
+                    </button>
+                </div>
+
+                <div id="role-summary-box"
+                    style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; display: none; margin-bottom: 15px;">
+                    <h4 style="margin: 0 0 10px 0; color: #aaa;">บทบาทในรอบนี้:</h4>
+                    <div id="role-summary-list" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <!-- Badges/Tags for roles will go here -->
+                    </div>
+                </div>
+                <button id="apply-roles-btn" onclick="applyRoles()"
+                    style="width: 100%; display: none; background-color: #34495e;">ใช้ชุดบทบาทนี้</button>
+            </div>
+            <button id="start-btn" onclick="startGame()"
+                style="width: 100%; margin-top: 24px; font-size: 1.1rem; padding: 16px;" class="pulse"><i
+                    class="fa-solid fa-play" style="margin-right: 8px;"></i>เริ่มเกม</button>
         </section>
 
         <!-- GAME DASHBOARD (Hidden initially) -->
@@ -55,10 +173,12 @@
                 <div class="phase-indicator" id="phase-display">ช่วงเริ่มต้น</div>
                 <div class="timer-display" id="timer">05:00</div>
                 <div class="phase-controls">
-                    <button class="secondary" onclick="toggleTimer()"><i class="fa-solid fa-stopwatch"
-                            id="timer-icon"></i></button>
-                    <button class="secondary" onclick="resetTimer()"><i class="fa-solid fa-rotate-right"></i></button>
-                    <button onclick="nextPhase()">เปลี่ยนเฟส <i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="secondary" onclick="toggleTimer()" style="padding: 12px 20px;"><i
+                            class="fa-solid fa-stopwatch" id="timer-icon"></i></button>
+                    <button class="secondary" onclick="resetTimer()" style="padding: 12px 20px;"><i
+                            class="fa-solid fa-rotate-right"></i></button>
+                    <button onclick="nextPhase()" style="flex: 1;"><i class="fa-solid fa-forward"
+                            style="margin-right: 6px;"></i>เปลี่ยนเฟส</button>
                 </div>
                 <div id="narrator-guide"
                     style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #444; font-size: 0.9rem; color: #bbb;">
@@ -67,8 +187,7 @@
 
                 <!-- Reset Game Button -->
                 <button onclick="resetGame()" class="secondary"
-                    style="width:100%; margin-top:10px; border-color: #444; color: #666; font-size: 0.8rem;">รีเซ็ตเกม
-                    (Reset Game)</button>
+                    style="width:100%; margin-top:10px; border-color: #444; color: #666; font-size: 0.8rem;">รีเซ็ตเกม</button>
             </div>
 
             <!-- Player List -->
@@ -93,7 +212,7 @@
     <!-- Winner Modal -->
     <div id="winner-modal" class="modal">
         <div class="modal-content" style="border-color: var(--gold-color);">
-            <h2 style="color: var(--gold-color); font-size: 2.5rem;">จบเกม! (Game Over)</h2>
+            <h2 style="color: var(--gold-color); font-size: 2.5rem;">จบเกม!</h2>
             <div class="role-reveal-text" id="winner-name" style="color: white; margin: 30px 0;">
                 ผู้ชนะ: ฝ่ายชาวบ้าน
             </div>
