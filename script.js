@@ -4,6 +4,7 @@ let gamePhase = 'SETUP'; // SETUP, NIGHT, DAY
 let time = 300; // 5 minutes default
 let timerInterval = null;
 let roleSelectionMode = 'random'; // 'random' or 'manual'
+let availableRolesForRound = []; // Roles generated for this round - restricts player selection
 
 // Configurable Roles (Thai Translations)
 const ROLES_CONFIG = [
@@ -102,7 +103,15 @@ function renderPlayerRoster() {
     }
 
     playerRoster.innerHTML = players.map(p => {
-        const roleOptions = ROLES_CONFIG.map(r =>
+        // If roles have been generated for this round, only show those roles
+        let rolesToShow = ROLES_CONFIG;
+        if (availableRolesForRound.length > 0) {
+            // Get unique role IDs from the generated roles
+            const uniqueRoleIds = [...new Set(availableRolesForRound)];
+            rolesToShow = ROLES_CONFIG.filter(r => uniqueRoleIds.includes(r.id));
+        }
+
+        const roleOptions = rolesToShow.map(r =>
             `<option value="${r.id}" ${p.roleId === r.id ? 'selected' : ''}>${r.name}</option>`
         ).join('');
 
@@ -677,6 +686,9 @@ function renderProposedRoles() {
 function applyRoles() {
     if (!currentProposedRoles || currentProposedRoles.length === 0) return;
 
+    // Store the available roles for this round
+    availableRolesForRound = [...currentProposedRoles];
+
     // Shuffle
     const shuffled = [...currentProposedRoles];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -708,12 +720,12 @@ initSetup();
 
 function setRoleMode(mode) {
     roleSelectionMode = mode;
-    
+
     const randomBtn = document.getElementById('mode-random-btn');
     const manualBtn = document.getElementById('mode-manual-btn');
     const randomUI = document.getElementById('random-mode-ui');
     const manualUI = document.getElementById('manual-mode-ui');
-    
+
     if (mode === 'random') {
         randomBtn.style.background = 'rgba(78, 205, 196, 0.2)';
         randomBtn.style.borderColor = '#4ecdc4';
@@ -721,7 +733,7 @@ function setRoleMode(mode) {
         manualBtn.style.background = 'transparent';
         manualBtn.style.borderColor = 'var(--text-secondary)';
         manualBtn.style.color = 'var(--text-secondary)';
-        
+
         randomUI.style.display = 'block';
         manualUI.style.display = 'none';
     } else {
@@ -731,10 +743,10 @@ function setRoleMode(mode) {
         randomBtn.style.background = 'transparent';
         randomBtn.style.borderColor = 'var(--text-secondary)';
         randomBtn.style.color = 'var(--text-secondary)';
-        
+
         randomUI.style.display = 'none';
         manualUI.style.display = 'block';
-        
+
         renderManualRoleSelector();
     }
 }
@@ -744,22 +756,22 @@ function renderManualRoleSelector() {
     const wolfContainer = document.getElementById('manual-wolf-roles');
     const soloContainer = document.getElementById('manual-solo-roles');
     const mixedContainer = document.getElementById('manual-mixed-roles');
-    
+
     villagerContainer.innerHTML = '';
     wolfContainer.innerHTML = '';
     soloContainer.innerHTML = '';
     mixedContainer.innerHTML = '';
-    
+
     const villagerRoles = ROLES_CONFIG.filter(r => r.team === 'VILLAGER' && r.id !== 'cursed' && r.id !== 'doppelganger' && r.id !== 'drunk');
     const wolfRoles = ROLES_CONFIG.filter(r => r.team === 'WOLF' || r.team === 'WOLF_SOLO');
     const soloRoles = ROLES_CONFIG.filter(r => r.team === 'SOLO' || r.team === 'VAMPIRE');
     const mixedRoles = ROLES_CONFIG.filter(r => r.id === 'cursed' || r.id === 'doppelganger' || r.id === 'drunk');
-    
+
     renderRoleGroup(villagerRoles, villagerContainer);
     renderRoleGroup(wolfRoles, wolfContainer);
     renderRoleGroup(soloRoles, soloContainer);
     renderRoleGroup(mixedRoles, mixedContainer);
-    
+
     updateManualRoleCount();
 }
 
@@ -786,9 +798,9 @@ function updateManualRoleCount() {
     const totalPlayersSpan = document.getElementById('total-players-needed');
     const totalRolesSpan = document.getElementById('total-roles-selected');
     const countDisplay = document.getElementById('role-count-display');
-    
+
     totalPlayersSpan.textContent = players.length;
-    
+
     let totalSelected = 0;
     ROLES_CONFIG.forEach(role => {
         const input = document.getElementById(`manual-${role.id}`);
@@ -796,9 +808,9 @@ function updateManualRoleCount() {
             totalSelected += parseInt(input.value) || 0;
         }
     });
-    
+
     totalRolesSpan.textContent = totalSelected;
-    
+
     if (totalSelected === players.length && totalSelected > 0) {
         countDisplay.classList.remove('invalid');
         countDisplay.classList.add('valid');
@@ -813,7 +825,7 @@ function generateManualRoles() {
         alert("ต้องการผู้เล่นอย่างน้อย 3 คนในการสร้างชุดบทบาท");
         return;
     }
-    
+
     const selectedRoles = [];
     ROLES_CONFIG.forEach(role => {
         const input = document.getElementById(`manual-${role.id}`);
@@ -824,24 +836,24 @@ function generateManualRoles() {
             }
         }
     });
-    
+
     if (selectedRoles.length !== players.length) {
         alert(`จำนวนบทบาทไม่ถูกต้อง! เลือก ${selectedRoles.length} บทบาท แต่มีผู้เล่น ${players.length} คน`);
         return;
     }
-    
+
     const hasWolf = selectedRoles.some(roleId => {
         const role = ROLES_CONFIG.find(r => r.id === roleId);
         return role && (role.team === 'WOLF' || role.team === 'WOLF_SOLO');
     });
-    
+
     if (!hasWolf) {
         alert("ต้องมีหมาป่าอย่างน้อย 1 ตัว!");
         return;
     }
-    
+
     currentProposedRoles = selectedRoles;
     renderProposedRoles();
-    
+
     document.getElementById('role-summary-box').scrollIntoView({ behavior: 'smooth' });
 }
