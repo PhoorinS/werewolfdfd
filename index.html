@@ -187,22 +187,26 @@
                         style="width: 100%; background: rgba(167, 139, 250, 0.2); border-color: #a78bfa; color: #a78bfa; margin-bottom: 10px;">
                         <i class="fa-solid fa-volume-high" style="margin-right: 8px;"></i>เสียงผู้บรรยาย
                     </button>
-                    <div id="narration-playback" style="display: none; gap: 8px; margin-bottom: 10px;">
-                        <button onclick="pauseNarration()" id="pause-narrate-btn" class="secondary"
-                            style="flex: 1; padding: 8px;">
-                            <i class="fa-solid fa-pause"></i> หยุดชั่วคราว
+                    <div id="narration-playback"
+                        style="display: none; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+                        <div id="current-narration"
+                            style="font-size: 0.9rem; color: #a78bfa; text-align: center; min-height: 40px; padding: 10px; background: rgba(167, 139, 250, 0.1); border-radius: 8px; margin-bottom: 8px;">
+                            <!-- Current narration text -->
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="previousNarration()" id="prev-narrate-btn" class="secondary"
+                                style="flex: 1; padding: 10px; display: none;">
+                                <i class="fa-solid fa-backward"></i> ก่อนหน้า
+                            </button>
+                            <button onclick="nextNarration()" id="next-narrate-btn" class="secondary"
+                                style="flex: 2; padding: 10px; background: rgba(78, 205, 196, 0.2); border-color: #4ecdc4; color: #4ecdc4;">
+                                <i class="fa-solid fa-forward"></i> ถัดไป
+                            </button>
+                        </div>
+                        <button onclick="stopNarration()" class="secondary"
+                            style="width: 100%; padding: 8px; border-color: #ff6b6b; color: #ff6b6b;">
+                            <i class="fa-solid fa-stop"></i> หยุดและปิด
                         </button>
-                        <button onclick="resumeNarration()" id="resume-narrate-btn" class="secondary"
-                            style="flex: 1; padding: 8px; display: none;">
-                            <i class="fa-solid fa-play"></i> เล่นต่อ
-                        </button>
-                        <button onclick="stopNarration()" class="secondary" style="flex: 1; padding: 8px;">
-                            <i class="fa-solid fa-stop"></i> หยุด
-                        </button>
-                    </div>
-                    <div id="current-narration"
-                        style="font-size: 0.85rem; color: #a78bfa; text-align: center; min-height: 20px;">
-                        <!-- Current narration text -->
                     </div>
                 </div>
 

@@ -863,7 +863,6 @@ function generateManualRoles() {
 let narratorSpeech = null;
 let narratorQueue = [];
 let narratorIndex = 0;
-let isPaused = false;
 
 function startNarration() {
     // Check if speech synthesis is supported
@@ -894,7 +893,8 @@ function startNarration() {
         // Opening
         narratorQueue.push({
             text: 'ทุกคนหลับตา. ตอนนี้เป็นเวลากลางคืน',
-            display: '🌙 ทุกคนหลับตา'
+            display: '🌙 ทุกคนหลับตา',
+            type: 'opening'
         });
 
         // Add each role's turn
@@ -992,102 +992,134 @@ function startNarration() {
 
             narratorQueue.push({
                 text: `${role.name} ${playerNames ? playerNames : ''} ${instruction}`,
-                display: `${index + 1}. ${role.name} - ${instruction}`
+                display: `${role.name} - ${instruction}`,
+                type: 'role',
+                roleName: role.name
             });
 
-            // Add "go back to sleep" after each role (except for wolves who act together)
-            if (!['werewolf', 'wolf_cub', 'wolf_man', 'dire_wolf', 'cursed'].includes(role.id)) {
+            // Check if current role is a wolf role
+            const isWolfRole = ['werewolf', 'wolf_cub', 'wolf_man', 'dire_wolf', 'cursed', 'lone_wolf'].includes(role.id);
+
+            // Check if next role is also a wolf role
+            const nextRole = nightSteps[index + 1];
+            const nextIsWolfRole = nextRole && ['werewolf', 'wolf_cub', 'wolf_man', 'dire_wolf', 'cursed', 'lone_wolf'].includes(nextRole.id);
+
+            // Add sleep command
+            if (isWolfRole) {
+                // If this is a wolf role and next role is NOT a wolf role (or no next role), add wolves sleep
+                if (!nextIsWolfRole) {
+                    narratorQueue.push({
+                        text: 'หมาป่าหลับตา',
+                        display: 'หมาป่าหลับตา',
+                        type: 'sleep'
+                    });
+                }
+            } else {
+                // For non-wolf roles, add individual sleep command
                 narratorQueue.push({
                     text: `${role.name} หลับตา`,
-                    display: `${role.name} หลับตา`
+                    display: `${role.name} หลับตา`,
+                    type: 'sleep'
                 });
             }
         });
 
         // Closing
         narratorQueue.push({
-            text: 'หมาป่าหลับตา. ทุกคนตื่นขึ้น. ตอนนี้เป็นเวลากลางวัน',
-            display: '☀️ ทุกคนตื่นขึ้น - กลางวัน'
+            text: 'ทุกคนตื่นขึ้น. ตอนนี้เป็นเวลากลางวัน',
+            display: '☀️ ทุกคนตื่นขึ้น - กลางวัน',
+            type: 'closing'
         });
 
     } else {
         // DAY phase narration
         narratorQueue.push({
             text: 'ตอนนี้เป็นเวลากลางวัน. ให้ทุกคนอภิปรายและโหวตประหารผู้ต้องสงสัย',
-            display: '☀️ เวลาอภิปรายและโหวต'
+            display: '☀️ เวลาอภิปรายและโหวต',
+            type: 'day'
         });
     }
 
-    // Start narration
+    // Start narration with manual control
     document.getElementById('narration-playback').style.display = 'flex';
     document.getElementById('narrate-btn').style.display = 'none';
-    speakNext();
+    updateNarrationProgress();
+    speakCurrent();
 }
 
-function speakNext() {
+function speakCurrent() {
+    // Cancel any ongoing speech
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+    }
+
     if (narratorIndex >= narratorQueue.length) {
         stopNarration();
         return;
     }
 
     const item = narratorQueue[narratorIndex];
-    document.getElementById('current-narration').innerHTML = `<i class=\"fa-solid fa-volume-high\" style=\"margin-right: 5px;\"></i>${item.display}`;
+    const progressText = `(${narratorIndex + 1}/${narratorQueue.length})`;
+    document.getElementById('current-narration').innerHTML = `<i class=\"fa-solid fa-volume-high\" style=\"margin-right: 5px;\"></i>${item.display} <span style=\"opacity: 0.6; font-size: 0.8em;\">${progressText}</span>`;
 
     narratorSpeech = new SpeechSynthesisUtterance(item.text);
     narratorSpeech.lang = 'th-TH';
-    narratorSpeech.rate = 0.9; // Slightly slower for clarity
+    narratorSpeech.rate = 0.9;
     narratorSpeech.pitch = 1.0;
     narratorSpeech.volume = 1.0;
 
-    narratorSpeech.onend = () => {
-        if (!isPaused) {
-            narratorIndex++;
-            // Add a small delay between narrations
-            setTimeout(() => {
-                if (!isPaused) {
-                    speakNext();
-                }
-            }, 800);
-        }
-    };
-
     narratorSpeech.onerror = (event) => {
         console.error('Speech synthesis error:', event);
-        stopNarration();
-        alert('เกิดข้อผิดพลาดในการอ่านเสียง');
+        // Don't stop on error, just log it
     };
 
     window.speechSynthesis.speak(narratorSpeech);
+    updateNarrationProgress();
 }
 
-function pauseNarration() {
-    if (window.speechSynthesis.speaking) {
-        window.speechSynthesis.pause();
-        isPaused = true;
-        document.getElementById('pause-narrate-btn').style.display = 'none';
-        document.getElementById('resume-narrate-btn').style.display = 'block';
+function nextNarration() {
+    narratorIndex++;
+    speakCurrent();
+}
+
+function previousNarration() {
+    if (narratorIndex > 0) {
+        narratorIndex--;
+        speakCurrent();
     }
 }
 
-function resumeNarration() {
-    if (window.speechSynthesis.paused) {
-        window.speechSynthesis.resume();
-        isPaused = false;
-        document.getElementById('pause-narrate-btn').style.display = 'block';
-        document.getElementById('resume-narrate-btn').style.display = 'none';
+function updateNarrationProgress() {
+    const prevBtn = document.getElementById('prev-narrate-btn');
+    const nextBtn = document.getElementById('next-narrate-btn');
+
+    // Show/hide previous button
+    if (narratorIndex > 0) {
+        prevBtn.style.display = 'block';
+    } else {
+        prevBtn.style.display = 'none';
+    }
+
+    // Update next button text
+    if (narratorIndex >= narratorQueue.length - 1) {
+        nextBtn.innerHTML = '<i class="fa-solid fa-check"></i> เสร็จสิ้น';
+    } else {
+        nextBtn.innerHTML = '<i class="fa-solid fa-forward"></i> ถัดไป';
     }
 }
 
 function stopNarration() {
-    window.speechSynthesis.cancel();
+    // Cancel speech synthesis safely
+    if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+    }
+
     narratorSpeech = null;
     narratorQueue = [];
     narratorIndex = 0;
-    isPaused = false;
+
     document.getElementById('narration-playback').style.display = 'none';
     document.getElementById('narrate-btn').style.display = 'block';
     document.getElementById('current-narration').innerHTML = '';
-    document.getElementById('pause-narrate-btn').style.display = 'block';
-    document.getElementById('resume-narrate-btn').style.display = 'none';
 }
 
