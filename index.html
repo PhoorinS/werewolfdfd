@@ -180,6 +180,32 @@
                     <button onclick="nextPhase()" style="flex: 1;"><i class="fa-solid fa-forward"
                             style="margin-right: 6px;"></i>เปลี่ยนเฟส</button>
                 </div>
+
+                <!-- Narrator Voice Controls -->
+                <div id="narrator-controls" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #444;">
+                    <button onclick="startNarration()" id="narrate-btn" class="secondary"
+                        style="width: 100%; background: rgba(167, 139, 250, 0.2); border-color: #a78bfa; color: #a78bfa; margin-bottom: 10px;">
+                        <i class="fa-solid fa-volume-high" style="margin-right: 8px;"></i>เสียงผู้บรรยาย
+                    </button>
+                    <div id="narration-playback" style="display: none; gap: 8px; margin-bottom: 10px;">
+                        <button onclick="pauseNarration()" id="pause-narrate-btn" class="secondary"
+                            style="flex: 1; padding: 8px;">
+                            <i class="fa-solid fa-pause"></i> หยุดชั่วคราว
+                        </button>
+                        <button onclick="resumeNarration()" id="resume-narrate-btn" class="secondary"
+                            style="flex: 1; padding: 8px; display: none;">
+                            <i class="fa-solid fa-play"></i> เล่นต่อ
+                        </button>
+                        <button onclick="stopNarration()" class="secondary" style="flex: 1; padding: 8px;">
+                            <i class="fa-solid fa-stop"></i> หยุด
+                        </button>
+                    </div>
+                    <div id="current-narration"
+                        style="font-size: 0.85rem; color: #a78bfa; text-align: center; min-height: 20px;">
+                        <!-- Current narration text -->
+                    </div>
+                </div>
+
                 <div id="narrator-guide"
                     style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #444; font-size: 0.9rem; color: #bbb;">
                     <!-- Narrator prompts go here -->

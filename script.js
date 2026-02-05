@@ -857,3 +857,237 @@ function generateManualRoles() {
 
     document.getElementById('role-summary-box').scrollIntoView({ behavior: 'smooth' });
 }
+
+// --- NARRATOR VOICE SYSTEM ---
+
+let narratorSpeech = null;
+let narratorQueue = [];
+let narratorIndex = 0;
+let isPaused = false;
+
+function startNarration() {
+    // Check if speech synthesis is supported
+    if (!('speechSynthesis' in window)) {
+        alert('ขออภัย เบราว์เซอร์ของคุณไม่รองรับการอ่านเสียง');
+        return;
+    }
+
+    // Stop any ongoing narration
+    stopNarration();
+
+    // Build narration queue based on current phase
+    narratorQueue = [];
+    narratorIndex = 0;
+
+    if (gamePhase === 'NIGHT') {
+        // Get active roles in the game
+        const activeRoles = [...new Set(players.filter(p => p.isAlive).map(p => p.roleObj))];
+        const nightSteps = activeRoles
+            .filter(r => r.nightOrder > 0)
+            .sort((a, b) => a.nightOrder - b.nightOrder);
+
+        if (nightSteps.length === 0) {
+            alert('ไม่มีบทบาทที่ต้องตื่นในคืนนี้');
+            return;
+        }
+
+        // Opening
+        narratorQueue.push({
+            text: 'ทุกคนหลับตา. ตอนนี้เป็นเวลากลางคืน',
+            display: '🌙 ทุกคนหลับตา'
+        });
+
+        // Add each role's turn
+        nightSteps.forEach((role, index) => {
+            const playersWithRole = players.filter(p => p.isAlive && p.roleObj.id === role.id);
+            const playerNames = playersWithRole.map(p => p.name).join(' และ ');
+
+            let instruction = '';
+
+            // Custom instructions for each role
+            switch (role.id) {
+                case 'cupid':
+                    instruction = 'ตื่นขึ้นและเลือกคู่รัก 2 คน';
+                    break;
+                case 'beholder':
+                    instruction = 'ตื่นขึ้นเพื่อดูว่าใครเป็นผู้หยั่งรู้';
+                    break;
+                case 'mason':
+                    instruction = 'ตื่นขึ้นและจำหน้ากัน';
+                    break;
+                case 'doppelganger':
+                    instruction = 'ตื่นขึ้นและเลือกคนที่จะเลียนแบบ';
+                    break;
+                case 'hoodlum':
+                    instruction = 'ตื่นขึ้นและเลือกเป้าหมาย';
+                    break;
+                case 'bodyguard':
+                    instruction = 'ตื่นขึ้นและเลือกคนที่จะปกป้อง';
+                    break;
+                case 'priest':
+                    instruction = 'ตื่นขึ้นและเลือกคนที่จะมอบพร';
+                    break;
+                case 'troublemaker':
+                    instruction = 'ตื่นขึ้นและเลือกใช้พลังหรือไม่';
+                    break;
+                case 'cursed':
+                case 'werewolf':
+                case 'wolf_cub':
+                case 'wolf_man':
+                case 'dire_wolf':
+                case 'lone_wolf':
+                    instruction = 'หมาป่าทั้งหมดตื่นขึ้นและเลือกเหยื่อ';
+                    break;
+                case 'minion':
+                    instruction = 'ตื่นขึ้นเพื่อดูว่าใครเป็นหมาป่า';
+                    break;
+                case 'witch':
+                    instruction = 'ตื่นขึ้น ดูเหยื่อ และเลือกใช้ยาหรือไม่';
+                    break;
+                case 'seer':
+                    instruction = 'ตื่นขึ้นและเลือกดูบทบาทของใครสักคน';
+                    break;
+                case 'aura_seer':
+                    instruction = 'ตื่นขึ้นและเลือกดูออร่าของใครสักคน';
+                    break;
+                case 'apprentice_seer':
+                    instruction = 'ตื่นขึ้นพร้อมผู้หยั่งรู้';
+                    break;
+                case 'pi':
+                    instruction = 'ตื่นขึ้นและเลือกดูว่ามีหมาป่าอยู่ใกล้ๆ หรือไม่';
+                    break;
+                case 'sorceress':
+                    instruction = 'ตื่นขึ้นและเลือกดูว่าใครเป็นผู้หยั่งรู้';
+                    break;
+                case 'cult_leader':
+                    instruction = 'ตื่นขึ้นและชวนคนเข้าลัทธิ';
+                    break;
+                case 'chupacabra':
+                    instruction = 'ตื่นขึ้นและเลือกเหยื่อ';
+                    break;
+                case 'vampire':
+                    instruction = 'ตื่นขึ้นและเลือกเหยื่อ';
+                    break;
+                case 'huntress':
+                    instruction = 'ตื่นขึ้นและเลือกใช้ความสามารถหรือไม่';
+                    break;
+                case 'revealer':
+                    instruction = 'ตื่นขึ้นและเลือกเปิดเผยตัวตนของใครสักคน';
+                    break;
+                case 'old_woman':
+                    instruction = 'ตื่นขึ้นและเลือกไล่คนออกจากเมือง';
+                    break;
+                case 'spellcaster':
+                    instruction = 'ตื่นขึ้นและเลือกใบ้ใครสักคน';
+                    break;
+                case 'insomniac':
+                    instruction = 'ตื่นขึ้นเพื่อดูว่าคนข้างๆ ตื่นหรือไม่';
+                    break;
+                case 'drunk':
+                    instruction = 'ตื่นขึ้นเพื่อดูบทบาทที่แท้จริง';
+                    break;
+                default:
+                    instruction = 'ตื่นขึ้นและใช้ความสามารถ';
+            }
+
+            narratorQueue.push({
+                text: `${role.name} ${playerNames ? playerNames : ''} ${instruction}`,
+                display: `${index + 1}. ${role.name} - ${instruction}`
+            });
+
+            // Add "go back to sleep" after each role (except for wolves who act together)
+            if (!['werewolf', 'wolf_cub', 'wolf_man', 'dire_wolf', 'cursed'].includes(role.id)) {
+                narratorQueue.push({
+                    text: `${role.name} หลับตา`,
+                    display: `${role.name} หลับตา`
+                });
+            }
+        });
+
+        // Closing
+        narratorQueue.push({
+            text: 'หมาป่าหลับตา. ทุกคนตื่นขึ้น. ตอนนี้เป็นเวลากลางวัน',
+            display: '☀️ ทุกคนตื่นขึ้น - กลางวัน'
+        });
+
+    } else {
+        // DAY phase narration
+        narratorQueue.push({
+            text: 'ตอนนี้เป็นเวลากลางวัน. ให้ทุกคนอภิปรายและโหวตประหารผู้ต้องสงสัย',
+            display: '☀️ เวลาอภิปรายและโหวต'
+        });
+    }
+
+    // Start narration
+    document.getElementById('narration-playback').style.display = 'flex';
+    document.getElementById('narrate-btn').style.display = 'none';
+    speakNext();
+}
+
+function speakNext() {
+    if (narratorIndex >= narratorQueue.length) {
+        stopNarration();
+        return;
+    }
+
+    const item = narratorQueue[narratorIndex];
+    document.getElementById('current-narration').innerHTML = `<i class=\"fa-solid fa-volume-high\" style=\"margin-right: 5px;\"></i>${item.display}`;
+
+    narratorSpeech = new SpeechSynthesisUtterance(item.text);
+    narratorSpeech.lang = 'th-TH';
+    narratorSpeech.rate = 0.9; // Slightly slower for clarity
+    narratorSpeech.pitch = 1.0;
+    narratorSpeech.volume = 1.0;
+
+    narratorSpeech.onend = () => {
+        if (!isPaused) {
+            narratorIndex++;
+            // Add a small delay between narrations
+            setTimeout(() => {
+                if (!isPaused) {
+                    speakNext();
+                }
+            }, 800);
+        }
+    };
+
+    narratorSpeech.onerror = (event) => {
+        console.error('Speech synthesis error:', event);
+        stopNarration();
+        alert('เกิดข้อผิดพลาดในการอ่านเสียง');
+    };
+
+    window.speechSynthesis.speak(narratorSpeech);
+}
+
+function pauseNarration() {
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.pause();
+        isPaused = true;
+        document.getElementById('pause-narrate-btn').style.display = 'none';
+        document.getElementById('resume-narrate-btn').style.display = 'block';
+    }
+}
+
+function resumeNarration() {
+    if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+        isPaused = false;
+        document.getElementById('pause-narrate-btn').style.display = 'block';
+        document.getElementById('resume-narrate-btn').style.display = 'none';
+    }
+}
+
+function stopNarration() {
+    window.speechSynthesis.cancel();
+    narratorSpeech = null;
+    narratorQueue = [];
+    narratorIndex = 0;
+    isPaused = false;
+    document.getElementById('narration-playback').style.display = 'none';
+    document.getElementById('narrate-btn').style.display = 'block';
+    document.getElementById('current-narration').innerHTML = '';
+    document.getElementById('pause-narrate-btn').style.display = 'block';
+    document.getElementById('resume-narrate-btn').style.display = 'none';
+}
+
