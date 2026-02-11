@@ -30,24 +30,29 @@
 
         <!-- SETUP SECTION -->
         <section id="setup-section" class="card">
-            <h2><i class="fa-solid fa-users" style="margin-right: 8px; opacity: 0.7;"></i>ลงทะเบียนผู้เล่น <span
-                    id="player-count" style="font-size: 0.85em; opacity: 0.8; margin-left: 8px;"></span></h2>
+            <!-- Player Count Input -->
+            <div id="player-count-section"
+                style="margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 24px;">
+                <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-users-gear"
+                        style="margin-right: 8px; opacity: 0.7;"></i>จำนวนผู้เล่น</h3>
 
-            <div class="input-group">
-                <input type="text" id="player-input" placeholder="ใส่ชื่อผู้เล่น...">
-                <button onclick="addPlayer()"><i class="fa-solid fa-plus"></i> เพิ่ม</button>
-            </div>
+                <div class="input-group">
+                    <input type="number" id="player-count-input" placeholder="กรอกจำนวนผู้เล่น (3-20)" min="3" max="20"
+                        style="flex: 2;">
+                    <button onclick="setPlayerCount()" style="flex: 1;"><i class="fa-solid fa-check"></i>
+                        ยืนยัน</button>
+                </div>
 
-            <div id="player-roster" style="margin-bottom: 20px;">
-                <!-- Player inputs with Role Dropdowns will go here -->
-                <p style="color: #666; font-style: italic; text-align: center;" id="empty-roster-msg">ยังไม่มีผู้เล่น
-                </p>
+                <div id="player-count-display"
+                    style="margin-top: 12px; text-align: center; font-size: 0.95rem; color: var(--text-secondary);">
+                    <span id="player-count-status">กรุณากรอกจำนวนผู้เล่นเพื่อเริ่มต้น</span>
+                </div>
             </div>
 
             <div id="role-randomizer"
-                style="margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px;">
+                style="margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 24px; opacity: 0.5; pointer-events: none;">
                 <h3 style="margin-bottom: 16px;"><i class="fa-solid fa-dice"
-                        style="margin-right: 8px; opacity: 0.7;"></i>สุ่มบทบาท</h3>
+                        style="margin-right: 8px; opacity: 0.7;"></i>บทบาท</h3>
 
                 <!-- Mode Toggle -->
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
@@ -160,9 +165,28 @@
                 <button id="apply-roles-btn" onclick="applyRoles()"
                     style="width: 100%; display: none; background-color: #34495e;">ใช้ชุดบทบาทนี้</button>
             </div>
-            <button id="start-btn" onclick="startGame()"
-                style="width: 100%; margin-top: 24px; font-size: 1.1rem; padding: 16px;" class="pulse"><i
-                    class="fa-solid fa-play" style="margin-right: 8px;"></i>เริ่มเกม</button>
+
+            <div id="player-registration-section" style="opacity: 0.5; pointer-events: none;">
+                <h2 style="margin-top: 24px;"><i class="fa-solid fa-users"
+                        style="margin-right: 8px; opacity: 0.7;"></i>ลงทะเบียนผู้เล่น <span id="player-count"
+                        style="font-size: 0.85em; opacity: 0.8; margin-left: 8px;"></span></h2>
+
+                <div class="input-group">
+                    <input type="text" id="player-input" placeholder="ใส่ชื่อผู้เล่น...">
+                    <button onclick="addPlayer()"><i class="fa-solid fa-plus"></i> เพิ่ม</button>
+                </div>
+
+                <div id="player-roster" style="margin-bottom: 20px;">
+                    <!-- Player inputs with Role Dropdowns will go here -->
+                    <p style="color: #666; font-style: italic; text-align: center;" id="empty-roster-msg">
+                        ยังไม่มีผู้เล่น
+                    </p>
+                </div>
+            </div>
+
+            <button id="start-btn" onclick="startGame()" disabled
+                style="width: 100%; margin-top: 24px; font-size: 1.1rem; padding: 16px; opacity: 0.5; cursor: not-allowed;"
+                class="pulse"><i class="fa-solid fa-play" style="margin-right: 8px;"></i>เริ่มเกม</button>
         </section>
 
         <!-- GAME DASHBOARD (Hidden initially) -->

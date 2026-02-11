@@ -5,6 +5,8 @@ let time = 300; // 5 minutes default
 let timerInterval = null;
 let roleSelectionMode = 'random'; // 'random' or 'manual'
 let availableRolesForRound = []; // Roles generated for this round - restricts player selection
+let maxPlayers = 0; // Maximum number of players set by user
+
 
 // Configurable Roles (Thai Translations)
 const ROLES_CONFIG = [
@@ -75,11 +77,70 @@ function initSetup() {
     playerInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') addPlayer();
     });
+
+    // Allow enter key to set player count
+    const playerCountInput = document.getElementById('player-count-input');
+    if (playerCountInput) {
+        playerCountInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') setPlayerCount();
+        });
+    }
 }
+
+function setPlayerCount() {
+    const input = document.getElementById('player-count-input');
+    const count = parseInt(input.value);
+
+    // Validate input
+    if (isNaN(count) || count < 3 || count > 20) {
+        alert('กรุณากรอกจำนวนผู้เล่นระหว่าง 3-20 คน');
+        return;
+    }
+
+    // Set max players
+    maxPlayers = count;
+
+    // Update UI
+    const statusSpan = document.getElementById('player-count-status');
+    statusSpan.innerHTML = `<strong style="color: #4ecdc4;">จำนวนผู้เล่น: ${maxPlayers} คน</strong>`;
+
+    // Disable player count input after setting
+    input.disabled = true;
+    input.style.opacity = '0.6';
+
+    // Enable role randomizer section
+    const roleRandomizer = document.getElementById('role-randomizer');
+    roleRandomizer.style.opacity = '1';
+    roleRandomizer.style.pointerEvents = 'auto';
+
+    // Enable player registration section
+    const playerRegistration = document.getElementById('player-registration-section');
+    playerRegistration.style.opacity = '1';
+    playerRegistration.style.pointerEvents = 'auto';
+
+    // Update player count display
+    updatePlayerCountDisplay();
+
+    // Scroll to role section
+    roleRandomizer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 
 function addPlayer() {
     const name = playerInput.value.trim();
     if (!name) return;
+
+    // Check if player count is set
+    if (maxPlayers === 0) {
+        alert('กรุณากรอกจำนวนผู้เล่นก่อน');
+        return;
+    }
+
+    // Check if max players reached
+    if (players.length >= maxPlayers) {
+        alert(`ลงทะเบียนครบแล้ว (${maxPlayers}/${maxPlayers} คน)`);
+        return;
+    }
 
     players.push({
         id: Date.now().toString(),
@@ -91,6 +152,39 @@ function addPlayer() {
 
     playerInput.value = '';
     renderPlayerRoster();
+    updatePlayerCountDisplay();
+}
+
+function updatePlayerCountDisplay() {
+    const countSpan = document.getElementById('player-count');
+    if (countSpan && maxPlayers > 0) {
+        const registered = players.length;
+        const color = registered === maxPlayers ? '#4ecdc4' : '#f1c40f';
+        countSpan.innerHTML = `<span style="color: ${color};">(${registered}/${maxPlayers})</span>`;
+    }
+
+    // Enable/disable start button based on registration completion
+    const startBtn = document.getElementById('start-btn');
+    if (players.length === maxPlayers && maxPlayers > 0) {
+        startBtn.disabled = false;
+        startBtn.style.opacity = '1';
+        startBtn.style.cursor = 'pointer';
+    } else {
+        startBtn.disabled = true;
+        startBtn.style.opacity = '0.5';
+        startBtn.style.cursor = 'not-allowed';
+    }
+
+    // Disable add player input when full
+    const playerInputField = document.getElementById('player-input');
+    const addButton = playerInputField?.nextElementSibling;
+    if (players.length >= maxPlayers) {
+        if (playerInputField) playerInputField.disabled = true;
+        if (addButton) addButton.disabled = true;
+    } else {
+        if (playerInputField) playerInputField.disabled = false;
+        if (addButton) addButton.disabled = false;
+    }
 }
 
 function renderPlayerRoster() {
@@ -139,11 +233,24 @@ function updatePlayerRole(id, val) {
 function removePlayer(id) {
     players = players.filter(p => p.id !== id);
     renderPlayerRoster();
+    updatePlayerCountDisplay();
 }
 
 // --- GAME LOGIC ---
 
 function startGame() {
+    // Check if player count is set
+    if (maxPlayers === 0) {
+        alert('กรุณากรอกจำนวนผู้เล่นก่อน');
+        return;
+    }
+
+    // Check if all players are registered
+    if (players.length !== maxPlayers) {
+        alert(`กรุณาลงทะเบียนผู้เล่นให้ครบ ${maxPlayers} คน (ปัจจุบันลงทะเบียน ${players.length} คน)`);
+        return;
+    }
+
     if (players.length < 3) {
         alert("ต้องการผู้เล่นอย่างน้อย 3 คนในการเริ่มเกม");
         return;
@@ -451,11 +558,13 @@ function updateTimerDisplay() {
 let currentProposedRoles = [];
 
 function generateRoles(difficulty) {
-    if (players.length < 3) {
-        alert("ต้องการผู้เล่นอย่างน้อย 3 คนในการสุ่ม");
+    // Check if player count is set
+    if (maxPlayers === 0) {
+        alert('กรุณากรอกจำนวนผู้เล่นก่อน');
         return;
     }
-    const count = players.length;
+
+    const count = maxPlayers; // Use maxPlayers instead of players.length
     let roles = [];
 
     // Base Wolf Count (Approx 1/3 or 1/4)
@@ -799,7 +908,8 @@ function updateManualRoleCount() {
     const totalRolesSpan = document.getElementById('total-roles-selected');
     const countDisplay = document.getElementById('role-count-display');
 
-    totalPlayersSpan.textContent = players.length;
+    // Use maxPlayers instead of players.length
+    totalPlayersSpan.textContent = maxPlayers || 0;
 
     let totalSelected = 0;
     ROLES_CONFIG.forEach(role => {
@@ -811,7 +921,7 @@ function updateManualRoleCount() {
 
     totalRolesSpan.textContent = totalSelected;
 
-    if (totalSelected === players.length && totalSelected > 0) {
+    if (totalSelected === maxPlayers && totalSelected > 0) {
         countDisplay.classList.remove('invalid');
         countDisplay.classList.add('valid');
     } else {
@@ -821,28 +931,30 @@ function updateManualRoleCount() {
 }
 
 function generateManualRoles() {
-    if (players.length < 3) {
-        alert("ต้องการผู้เล่นอย่างน้อย 3 คนในการสร้างชุดบทบาท");
+    // Check if player count is set
+    if (maxPlayers === 0) {
+        alert('กรุณากรอกจำนวนผู้เล่นก่อน');
         return;
     }
 
-    const selectedRoles = [];
+    let roles = [];
+
     ROLES_CONFIG.forEach(role => {
         const input = document.getElementById(`manual-${role.id}`);
         if (input) {
             const count = parseInt(input.value) || 0;
             for (let i = 0; i < count; i++) {
-                selectedRoles.push(role.id);
+                roles.push(role.id);
             }
         }
     });
 
-    if (selectedRoles.length !== players.length) {
-        alert(`จำนวนบทบาทไม่ถูกต้อง! เลือก ${selectedRoles.length} บทบาท แต่มีผู้เล่น ${players.length} คน`);
+    if (roles.length !== maxPlayers) {
+        alert(`กรุณาเลือกบทบาทให้ครบ ${maxPlayers} บทบาท (ปัจจุบันเลือก ${roles.length} บทบาท)`);
         return;
     }
 
-    const hasWolf = selectedRoles.some(roleId => {
+    const hasWolf = roles.some(roleId => {
         const role = ROLES_CONFIG.find(r => r.id === roleId);
         return role && (role.team === 'WOLF' || role.team === 'WOLF_SOLO');
     });

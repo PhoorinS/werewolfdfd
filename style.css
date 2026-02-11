@@ -8,7 +8,7 @@
     --card-bg: rgba(255, 255, 255, 0.05);
     --card-border: rgba(255, 255, 255, 0.1);
     --text-primary: #ffffff;
-    --text-secondary: #b8b8d4;
+    --text-secondary: #e0e0e0;
     --accent-primary: #ff6b6b;
     --accent-secondary: #4ecdc4;
     --accent-tertiary: #ffe66d;
@@ -88,10 +88,10 @@ body.day-mode::before {
 }
 
 body.day-mode {
-    --card-bg: rgba(255, 255, 255, 0.7);
-    --card-border: rgba(255, 255, 255, 0.3);
-    --text-primary: #2d3436;
-    --text-secondary: #636e72;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-border: rgba(255, 255, 255, 0.5);
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
     --accent-primary: #ff7675;
     --accent-secondary: #fd79a8;
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
