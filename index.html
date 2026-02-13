@@ -44,8 +44,11 @@
                 </div>
 
                 <div id="player-count-display"
-                    style="margin-top: 12px; text-align: center; font-size: 0.95rem; color: var(--text-secondary);">
+                    style="margin-top: 12px; text-align: center; font-size: 0.95rem; color: var(--text-secondary); display: flex; justify-content: center; align-items: center; gap: 10px;">
                     <span id="player-count-status">กรุณากรอกจำนวนผู้เล่นเพื่อเริ่มต้น</span>
+                    <button id="edit-player-count-btn" onclick="editPlayerCount()"
+                        style="display: none; padding: 6px 12px; font-size: 0.8rem; background: rgba(78, 205, 196, 0.2); border: 1px solid #4ecdc4; color: #4ecdc4;"><i
+                            class="fa-solid fa-pen"></i> แก้ไข</button>
                 </div>
             </div>
 

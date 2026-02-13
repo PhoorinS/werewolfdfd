@@ -454,7 +454,7 @@ button.kill-btn:hover {
     font-size: 3rem;
     font-weight: 700;
     text-align: center;
-    color: var(--text-primary);
+    color: #ffffff;
     margin: 16px 0;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
     letter-spacing: 4px;
@@ -799,4 +799,59 @@ button.kill-btn:hover {
 #role-count-display.invalid {
     color: #ff6b6b !important;
     border-color: #ff6b6b;
+}
+
+/* Role Counter Buttons */
+.role-counter {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.counter-btn {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(78, 205, 196, 0.15);
+    border: 1px solid rgba(78, 205, 196, 0.4);
+    color: #4ecdc4;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-fast) ease;
+    box-shadow: none;
+}
+
+.counter-btn:hover {
+    background: rgba(78, 205, 196, 0.25);
+    border-color: #4ecdc4;
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+}
+
+.counter-btn:active {
+    transform: scale(0.95);
+}
+
+.counter-btn::before {
+    display: none;
+}
+
+.role-counter input[type="number"] {
+    width: 45px;
+    padding: 4px;
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    cursor: default;
+}
+
+.role-counter input[type="number"]::-webkit-inner-spin-button,
+.role-counter input[type="number"]::-webkit-outer-spin-button {
+    display: none;
 }

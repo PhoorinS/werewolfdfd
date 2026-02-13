@@ -22,18 +22,18 @@ const ROLES_CONFIG = [
     { id: 'insomniac', name: 'หน่องนอนไม่หลับ', icon: 'fa-bed', desc: 'รู้ว่าคนนั่งข้างซ้าย/ขวาตื่นหรือไม่ (ผู้ดำเนินเกมชูนิ้ว=ตื่น)', nightOrder: 90, team: 'VILLAGER' },
     { id: 'lycan', name: 'ลูกครึ่งหมา', icon: 'fa-dog', desc: 'ฝ่ายชาวบ้าน แต่ผู้หยั่งรู้จะเห็นเป็นหมาป่า', nightOrder: 0, team: 'VILLAGER' },
     { id: 'mason', name: 'กลุ่มภราดรภาพ', icon: 'fa-trowel-bricks', desc: 'คืนแรกลืมตามาจำหน้ากัน ห้ามใครพูดถึงกลุ่มภราดรภาพไม่งั้นคืนถัดไปตาย (นับว่าแพ้)', nightOrder: 3, team: 'VILLAGER' },
-    { id: 'old_woman', name: 'หญิงแก่', icon: 'fa-person-cane', desc: 'ทุกคืนเลือกไล่คนออกจากเมือง 1 วัน (ห้ามพูด/โหวต/โดนฆ่า) ห้ามเลือกซ้ำ/ตัวเอง', nightOrder: 81, team: 'VILLAGER' },
+    { id: 'old_woman', name: 'แม่เฒ่า', icon: 'fa-person-cane', desc: 'ทุกคืนเลือกไล่คนออกจากเมือง 1 วัน (ห้ามพูด/โหวต/โดนฆ่า) ห้ามเลือกซ้ำ/ตัวเอง', nightOrder: 81, team: 'VILLAGER' },
     { id: 'pacifist', name: 'ผู้รักสงบ', icon: 'fa-peace', desc: 'ห้ามโหวตประหารใคร (ถ้าให้สนุก ผู้ดำเนินเกมอย่าบอกว่ามีบทนี้)', nightOrder: 0, team: 'VILLAGER' },
     { id: 'pi', name: 'คนอวดผี', icon: 'fa-magnifying-glass', desc: 'ชี้คนเพื่อดูว่าเขาหรือคนข้างๆ เป็นหมาป่าไหม (ชู=มี, คว่ำ=ไม่มี) ไม่บอกจำนวน', nightOrder: 43, team: 'VILLAGER' },
     { id: 'priest', name: 'บาทหลวง', icon: 'fa-cross', desc: 'เลือกมอบพรให้คน 1 ครั้ง เพื่อกันตายได้ 1 ครั้ง (แม้บาทหลวงตายพรก็ยังอยู่)', nightOrder: 11, team: 'VILLAGER' },
     { id: 'prince', name: 'เจ้าชาย', icon: 'fa-crown', desc: 'ถ้าถูกโหวตประหาร จะไม่ตายแต่ต้องเปิดเผยบทบาทและจบวันทันที (แต่โดนฆ่ากลางคืนตายปกติ)', nightOrder: 0, team: 'VILLAGER' },
     { id: 'revealer', name: 'ผู้เปิดเผยตัวตน', icon: 'fa-clapperboard', desc: 'เลือก 1 คน ถ้าเป็นหมาป่า(รวมลูกครึ่งหมา) มันตาย ถ้าไม่ใช่ เราตาย', nightOrder: 63, team: 'VILLAGER' },
-    { id: 'seer', name: 'ผู้หยั่งรู้', icon: 'fa-eye', desc: 'ชี้คนเพื่อดูว่าเป็นหมาป่าไหม (ชู=ใช่, คว่ำ=ไม่ใช่) บทอื่นๆ เช่น แวมไพร์/ลูกสมุน นับว่าไม่ใช่', nightOrder: 40, team: 'VILLAGER' },
-    { id: 'spellcaster', name: 'ผู้ร่ายเวท', icon: 'fa-wand-magic-sparkles', desc: 'เลือกใบ้ 1 คน ห้ามพูด/เสนอ/โหวต ในเช้าถัดไป (ผู้ดำเนินเกมต้องประกาศคนโดน)', nightOrder: 80, team: 'VILLAGER' },
-    { id: 'tough_guy', name: 'หนุ่มบึ้ก', icon: 'fa-dumbbell', desc: 'ถ้าโดนหมาป่าฆ่า จะยังไม่ตายจนกว่าจะเช้าถัดไป', nightOrder: 0, team: 'VILLAGER' },
+    { id: 'seer', name: 'เทพพยากรณ์', icon: 'fa-eye', desc: 'ชี้คนเพื่อดูว่าเป็นหมาป่าไหม (ชู=ใช่, คว่ำ=ไม่ใช่) บทอื่นๆ เช่น แวมไพร์/ลูกสมุน นับว่าไม่ใช่', nightOrder: 40, team: 'VILLAGER' },
+    { id: 'spellcaster', name: 'จอมเวทย์', icon: 'fa-wand-magic-sparkles', desc: 'เลือกใบ้ 1 คน ห้ามพูด/เสนอ/โหวต ในเช้าถัดไป (ผู้ดำเนินเกมต้องประกาศคนโดน)', nightOrder: 80, team: 'VILLAGER' },
+    { id: 'tough_guy', name: 'หนุ่มถึก', icon: 'fa-dumbbell', desc: 'ถ้าโดนหมาป่าฆ่า จะยังไม่ตายจนกว่าจะเช้าถัดไป', nightOrder: 0, team: 'VILLAGER' },
     { id: 'troublemaker', name: 'ผู้สร้างปัญหา', icon: 'fa-shuffle', desc: 'เลือกใช้พลังทำให้วันถัดไปต้องโหวตประหาร 2 คน', nightOrder: 15, team: 'VILLAGER' },
     { id: 'villager_idiot', name: 'ชาวบ้านผู้โง่เง่า', icon: 'fa-face-grin-tongue-wink', desc: 'ต้องโหวตประหารใครสักคนทุกเช้า (ถ้าให้สนุก ผู้ดำเนินเกมอย่าบอกว่ามีบทนี้)', nightOrder: 0, team: 'VILLAGER' },
-    { id: 'villager', name: 'ชาวบ้านธรรมดา', icon: 'fa-user', desc: 'ช่วยกันจับผิดและโหวตประหาร', nightOrder: 0, team: 'VILLAGER' },
+    { id: 'villager', name: 'ชาวบ้าน', icon: 'fa-user', desc: 'ช่วยกันจับผิดและโหวตประหาร', nightOrder: 0, team: 'VILLAGER' },
     { id: 'witch', name: 'แม่มด', icon: 'fa-hat-wizard', desc: 'มียาฆ่า/ยาช่วยอย่างละขวด รู้ว่าใครกำลังจะโดนฆ่า(ผู้ดำเนินเกมชี้ให้ดู)', nightOrder: 30, team: 'VILLAGER' },
 
     // --- Self Team (ฝ่ายตัวเอง) ---
@@ -46,14 +46,14 @@ const ROLES_CONFIG = [
 
     // --- Half/Mixed (ครึ่งคนครึ่งร้าย) ---
     { id: 'cursed', name: 'ผู้โดนสาป', icon: 'fa-book-skull', desc: 'อยู่ทีมชาวบ้าน จนกว่าจะโดนหมาป่าฆ่าจะกลายเป็นหมาป่า (ตื่นพร้อมหมาป่าทุกคืน แม้ยังไม่เปลี่ยน)', nightOrder: 19, team: 'VILLAGER' },
-    { id: 'doppelganger', name: 'ด็อพเพิลเก็งเงอร์', icon: 'fa-masks-theater', desc: 'คืนแรกเลือก 1 คน ถ้าเขาตายเราสวมบทแทน (อยู่ทีมชาวบ้านจนกว่าจะสวมบท)', nightOrder: 5, team: 'VILLAGER' },
+    { id: 'doppelganger', name: 'ด็อพเพิลเก็งเงอร์/ภูจำแลง', icon: 'fa-masks-theater', desc: 'คืนแรกเลือก 1 คน ถ้าเขาตายเราสวมบทแทน (อยู่ทีมชาวบ้านจนกว่าจะสวมบท)', nightOrder: 5, team: 'VILLAGER' },
     { id: 'drunk', name: 'คนเมา', icon: 'fa-wine-bottle', desc: 'ไม่รู้บทตัวเองจนคืนที่ 3 (สุ่มหยิบการ์ด)', nightOrder: 100, team: 'VILLAGER' },
 
     // --- Wolf Team (ฝ่ายหมาป่า) ---
     { id: 'dire_wolf', name: 'หมาป่าโลกันตร์', icon: 'fa-link', desc: 'เลือก 1 สหาย ถ้าเขาตายเราตายด้วย (ถ้าเราตายสหายไม่ตาย)', nightOrder: 21, team: 'WOLF' },
     { id: 'minion', name: 'ลูกสมุน', icon: 'fa-mask', desc: 'รู้ว่าใครเป็นหมาป่า แต่หมาป่าไม่รู้เรา ช่วยปั่นชาวบ้าน', nightOrder: 22, team: 'WOLF' },
-    { id: 'sorceress', name: 'แม่มดร้าย', icon: 'fa-hat-witch', desc: 'เลือกดูว่าใครเป็นผู้หยั่งรู้ (ชู=ใช่, คว่ำ=ไม่ใช่) ไม่รู้ว่าใครเป็นหมาป่า', nightOrder: 44, team: 'WOLF' },
-    { id: 'werewolf', name: 'หมาป่าธรรมดา', icon: 'fa-wolf-pack-battalion', desc: 'ตื่นมาโหวตฆ่า (ห้ามฆ่ากันเอง)', nightOrder: 20, team: 'WOLF' },
+    { id: 'sorceress', name: 'แม่หมอ', icon: 'fa-hat-witch', desc: 'เลือกดูว่าใครเป็นผู้หยั่งรู้ (ชู=ใช่, คว่ำ=ไม่ใช่) ไม่รู้ว่าใครเป็นหมาป่า', nightOrder: 44, team: 'WOLF' },
+    { id: 'werewolf', name: 'หมาป่า', icon: 'fa-wolf-pack-battalion', desc: 'ตื่นมาโหวตฆ่า (ห้ามฆ่ากันเอง)', nightOrder: 20, team: 'WOLF' },
     { id: 'wolf_cub', name: 'ลูกหมาป่า', icon: 'fa-paw', desc: 'ถ้าตาย คืนถัดไปหมาป่าฆ่าได้ 2 คน', nightOrder: 20, team: 'WOLF' },
     { id: 'wolf_man', name: 'มนุษย์หมาป่า', icon: 'fa-people-arrows', desc: 'บทบาทที่หาหมาป่าจะเห็นเราเป็นชาวบ้าน', nightOrder: 20, team: 'WOLF' }
 ];
@@ -104,6 +104,10 @@ function setPlayerCount() {
     const statusSpan = document.getElementById('player-count-status');
     statusSpan.innerHTML = `<strong style="color: #4ecdc4;">จำนวนผู้เล่น: ${maxPlayers} คน</strong>`;
 
+    // Show edit button
+    const editBtn = document.getElementById('edit-player-count-btn');
+    if (editBtn) editBtn.style.display = 'inline-block';
+
     // Disable player count input after setting
     input.disabled = true;
     input.style.opacity = '0.6';
@@ -123,6 +127,23 @@ function setPlayerCount() {
 
     // Scroll to role section
     roleRandomizer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function editPlayerCount() {
+    const input = document.getElementById('player-count-input');
+    const editBtn = document.getElementById('edit-player-count-btn');
+    const statusSpan = document.getElementById('player-count-status');
+
+    // Re-enable input
+    input.disabled = false;
+    input.style.opacity = '1';
+    input.focus();
+
+    // Hide edit button
+    if (editBtn) editBtn.style.display = 'none';
+
+    // Reset status message
+    statusSpan.innerHTML = 'กรุณากรอกจำนวนผู้เล่นใหม่และกดยืนยัน';
 }
 
 
@@ -147,7 +168,8 @@ function addPlayer() {
         name: name,
         roleId: 'villager', // Default
         isAlive: true,
-        isLover: false
+        isLover: false,
+        doppelgangerTarget: null // For Doppelganger role
     });
 
     playerInput.value = '';
@@ -296,6 +318,7 @@ function resetGame() {
 function renderGameList() {
     const hasCupid = players.some(p => p.roleObj.id === 'cupid');
     const loverCount = players.filter(p => p.isLover).length;
+    const hasDoppelganger = players.some(p => p.roleObj.id === 'doppelganger' && p.isAlive);
 
     // Sort players: Alive first, Dead last
     const sortedPlayers = [...players].sort((a, b) => {
@@ -303,26 +326,41 @@ function renderGameList() {
         return a.isAlive ? -1 : 1;
     });
 
-    activePlayersList.innerHTML = sortedPlayers.map(p => `
+    activePlayersList.innerHTML = sortedPlayers.map(p => {
+        // Check if this player is a Doppelganger's target
+        const isDoppelTarget = players.some(dp => dp.roleObj.id === 'doppelganger' && dp.doppelgangerTarget === p.id && dp.isAlive);
+        const targetIndicator = isDoppelTarget ? '<span style="color:#9b59b6; margin-left:5px;"><i class="fa-solid fa-crosshairs"></i> เป้าหมาย</span>' : '';
+
+        return `
         <div class="player-card ${!p.isAlive ? 'dead' : ''}" onclick="toggleLife('${p.id}')">
             <div class="player-info">
                 <div class="player-name">
                     ${p.name} 
                     ${p.isLover ? '<span style="color:pink; margin-left:5px;"><i class="fa-solid fa-heart"></i> คู่รัก</span>' : ''}
+                    ${targetIndicator}
                 </div>
                 <div class="player-role"><i class="fa-solid ${p.roleObj.icon}"></i> ${p.roleObj.name}</div>
             </div>
             <div class="actions">
                 ${p.isAlive ?
-            `<button class="kill-btn" onclick="event.stopPropagation(); killPlayer('${p.id}')">ฆ่า / โหวตออก</button>
-             ${(hasCupid && (loverCount < 2 || p.isLover)) ? `<button class="kill-btn" style="background-color: pink; color: white;" onclick="event.stopPropagation(); toggleLover('${p.id}')">❤️</button>` : ''}`
-            : '<i class="fa-solid fa-skull"></i>'}
+                `<button class="kill-btn" onclick="event.stopPropagation(); killPlayer('${p.id}')">ฆ่า / โหวตออก</button>
+             ${(hasCupid && (loverCount < 2 || p.isLover)) ? `<button class="kill-btn" style="background-color: pink; color: white;" onclick="event.stopPropagation(); toggleLover('${p.id}')">❤️</button>` : ''}
+             ${(p.roleObj.id === 'doppelganger' && !p.doppelgangerTarget) ? `<button class="kill-btn" style="background-color: #9b59b6; color: white; border-color: #9b59b6;" onclick="event.stopPropagation(); setDoppelgangerTargetMode('${p.id}')">🎯 ตั้งเป้าหมาย</button>` : ''}
+             ${(p.roleObj.id === 'doppelganger' && p.doppelgangerTarget) ? `<button class="kill-btn" style="background-color: #555; color: white; border-color: #555;" onclick="event.stopPropagation(); clearDoppelgangerTarget('${p.id}')">🎯 ยกเลิกเป้าหมาย</button>` : ''}`
+                : '<i class="fa-solid fa-skull"></i>'}
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
 
 function toggleLife(id) {
+    // If in Doppelganger target selection mode, select target instead
+    if (doppelgangerSelectingMode) {
+        selectDoppelgangerTarget(id);
+        return;
+    }
+
     const p = players.find(pl => pl.id === id);
     if (!p) return;
 
@@ -339,6 +377,106 @@ function toggleLover(id) {
     if (!p) return;
     p.isLover = !p.isLover;
     renderGameList();
+}
+
+// Doppelganger Target Management
+let doppelgangerSelectingMode = null; // Stores the ID of the Doppelganger who is selecting
+
+function setDoppelgangerTargetMode(doppelgangerId) {
+    doppelgangerSelectingMode = doppelgangerId;
+    alert('กรุณาคลิกที่ผู้เล่นที่ต้องการตั้งเป้าหมาย (Doppelganger จะได้บทบาทของเขาเมื่อเขาตาย)');
+
+    // Temporarily change click handlers
+    const playerCards = document.querySelectorAll('.player-card');
+    playerCards.forEach(card => {
+        card.style.cursor = 'crosshair';
+        card.style.border = '2px solid #9b59b6';
+    });
+}
+
+function selectDoppelgangerTarget(targetId) {
+    if (!doppelgangerSelectingMode) return;
+
+    const doppelganger = players.find(p => p.id === doppelgangerSelectingMode);
+    const target = players.find(p => p.id === targetId);
+
+    if (!doppelganger || !target) return;
+
+    // Can't target self
+    if (doppelgangerSelectingMode === targetId) {
+        alert('ไม่สามารถเลือกตัวเองเป็นเป้าหมายได้');
+        doppelgangerSelectingMode = null;
+        renderGameList();
+        return;
+    }
+
+    // Can't target dead players
+    if (!target.isAlive) {
+        alert('ไม่สามารถเลือกผู้เล่นที่ตายแล้วเป็นเป้าหมายได้');
+        doppelgangerSelectingMode = null;
+        renderGameList();
+        return;
+    }
+
+    doppelganger.doppelgangerTarget = targetId;
+    doppelgangerSelectingMode = null;
+
+    alert(`ตั้งเป้าหมายสำเร็จ: ${target.name} (${target.roleObj.name})\nเมื่อ ${target.name} ตาย ${doppelganger.name} จะได้บทบาท ${target.roleObj.name}`);
+    renderGameList();
+}
+
+function clearDoppelgangerTarget(doppelgangerId) {
+    const doppelganger = players.find(p => p.id === doppelgangerId);
+    if (!doppelganger) return;
+
+    if (confirm('ต้องการยกเลิกเป้าหมายหรือไม่?')) {
+        doppelganger.doppelgangerTarget = null;
+        renderGameList();
+    }
+}
+
+function transformDoppelganger(deadPlayerId) {
+    // Find all Doppelgangers who targeted this player
+    const doppelgangers = players.filter(p =>
+        p.roleObj.id === 'doppelganger' &&
+        p.doppelgangerTarget === deadPlayerId &&
+        p.isAlive
+    );
+
+    if (doppelgangers.length === 0) return;
+
+    const deadPlayer = players.find(p => p.id === deadPlayerId);
+    if (!deadPlayer) return;
+
+    doppelgangers.forEach(doppel => {
+        const oldRole = doppel.roleObj.name;
+        const newRole = deadPlayer.roleObj;
+
+        // Transform the Doppelganger
+        doppel.roleId = deadPlayer.roleId;
+        doppel.roleObj = newRole;
+        doppel.doppelgangerTarget = null; // Clear target after transformation
+
+        // Show transformation modal instead of alert
+        showDoppelgangerTransformModal(doppel.name, oldRole, newRole);
+    });
+
+    renderGameList();
+}
+
+function showDoppelgangerTransformModal(playerName, oldRole, newRole) {
+    const modal = document.getElementById('modal');
+    const modalRoleName = document.getElementById('modal-role-name');
+    const modalRoleDesc = document.getElementById('modal-role-desc');
+    const modalTitle = modal.querySelector('h2');
+
+    // Update modal content
+    modalTitle.innerHTML = `🎭 ${playerName} เปลี่ยนบทบาท!`;
+    modalRoleName.innerHTML = `${oldRole} ➜ ${newRole.name}`;
+    modalRoleDesc.innerHTML = `<strong>${newRole.name}</strong><br>${newRole.desc}`;
+
+    // Show modal
+    modal.classList.add('active');
 }
 
 function killPlayer(id) {
@@ -377,6 +515,9 @@ function killPlayer(id) {
                 otherLovers.forEach(l => l.isAlive = false);
             }
         }
+
+        // --- Doppelganger Transformation ---
+        transformDoppelganger(p.id);
 
         renderGameList();
 
@@ -890,17 +1031,38 @@ function renderRoleGroup(roles, container) {
         item.className = 'manual-role-item';
         item.innerHTML = `
             <label for="manual-${role.id}" title="${role.desc}">${role.name}</label>
-            <input 
-                type="number" 
-                id="manual-${role.id}" 
-                min="0" 
-                max="10" 
-                value="0"
-                onchange="updateManualRoleCount()"
-            >
+            <div class="role-counter">
+                <button class="counter-btn" onclick="adjustRoleCount('manual-${role.id}', -1)" type="button">-</button>
+                <input 
+                    type="number" 
+                    id="manual-${role.id}" 
+                    min="0" 
+                    max="10" 
+                    value="0"
+                    onchange="updateManualRoleCount()"
+                    readonly
+                >
+                <button class="counter-btn" onclick="adjustRoleCount('manual-${role.id}', 1)" type="button">+</button>
+            </div>
         `;
         container.appendChild(item);
     });
+}
+
+function adjustRoleCount(inputId, delta) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    let currentValue = parseInt(input.value) || 0;
+    let newValue = currentValue + delta;
+
+    // Enforce min/max
+    const min = parseInt(input.getAttribute('min')) || 0;
+    const max = parseInt(input.getAttribute('max')) || 10;
+    newValue = Math.max(min, Math.min(max, newValue));
+
+    input.value = newValue;
+    updateManualRoleCount();
 }
 
 function updateManualRoleCount() {
@@ -964,7 +1126,7 @@ function generateManualRoles() {
         return;
     }
 
-    currentProposedRoles = selectedRoles;
+    currentProposedRoles = roles;
     renderProposedRoles();
 
     document.getElementById('role-summary-box').scrollIntoView({ behavior: 'smooth' });
